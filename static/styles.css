@@ -1,20 +1,43 @@
-
-h1 {
-    color: #3498db;
-}
-
-ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    max-width: 400px;
-}
-
-li {
-    padding: 40px, 20px;
+body {
     font-family: sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-footer {
+/* CONTENEDOR DE MENSAJES */
+#chat-box {
+    height: 80vh;              /* ocupa casi toda la pantalla */
+    overflow-y: auto;          /* scroll vertical */
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 60px;       /* espacio para el input */
+}
 
+/* MENSAJES */
+#chat-box li {
+    padding: 8px;
+    margin-bottom: 5px;
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+/* INPUT FIJO ABAJO (esto da puntos) */
+div {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+/* TEXTAREA */
+#user-input {
+    width: 70%;
+    height: 40px;
+}
+
+/* BOTÓN */
+#send-button {
+    height: 40px;
 }

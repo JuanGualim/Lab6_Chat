@@ -6,16 +6,18 @@ import (
 	"net/http"
 )
 
-var chatApi = "https://joelsiervas.online/23025/lab4_web/"
+var chatApi = "https://chat.joelsiervas.online"
 
 func getMessages(w http.ResponseWriter, r *http.Request) {
 	resp, _ := http.Get(chatApi + "/messages")
+	w.Header().Set("Content-Type", "application/json")
 
 	io.Copy(w, resp.Body)
 }
 
 func postMessage(w http.ResponseWriter, r *http.Request) {
 	resp, _ := http.Post(chatApi+"/messages", "application/json", r.Body)
+	w.Header().Set("Content-Type", "application/json")
 
 	io.Copy(w, resp.Body)
 }

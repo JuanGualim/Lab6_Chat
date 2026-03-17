@@ -1,16 +1,24 @@
 const getMessages = async () => {
     const response = await fetch("/api/messages");
-    const messages = await response.json();
+    const text = await response.text();
 
-    const chatBox = document.getElementById("chat-box")
-    chatBox.innerHTML = ""
+    let messages;
 
-    for (let i = 0; i < messages.length; i++) {
-        const message = messages[i]
-        const div = document.createElement("li")
-        div.innerHTML = `<strong>${message.author || message.user}:</strong> ${message.text}`
-        chatBox.appendChild(div)
-    }   
+    try {
+        messages = JSON.parse(text);
+    } catch (e) {
+        console.log("No es JSON válido:", text);
+        return;
+    }
+
+    const chatBox = document.getElementById("chat-box");
+    chatBox.innerHTML = "";
+
+    messages.forEach(message => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${message.author || message.user}:</strong> ${message.text}`;
+        chatBox.appendChild(li);
+    });
 };
 
 const postMessage = async (message) => {
@@ -35,9 +43,15 @@ sendButton.addEventListener("click", () => {
     const message = userInput.value
     if (message.trim() !== "") {
         postMessage({
-            user: "Jorge",
+            user: "Juan Gualim",
             text: message
         })
         userInput.value = ""
     }
 })
+userInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault(); // 👈 evita salto de línea
+        sendButton.click();
+    }
+});
