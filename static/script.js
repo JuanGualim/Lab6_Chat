@@ -1,37 +1,43 @@
 const getMessages = async () => {
-    const response = await fetch('/api/messages');
+    const response = await fetch("/api/messages");
     const messages = await response.json();
 
-    const ul = document.getElementById('messages');
-    ul.innerHTML = '';
+    const chatBox = document.getElementById("chat-box")
+    chatBox.innerHTML = ""
 
-    for(let i = 0; i < messages.length; i++) {
-        const message = messages[i];
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${message.user}: </strong>${message.text}`;
-        ul.appendChild(li);
-    }
-}
+    for (let i = 0; i < messages.length; i++) {
+        const message = messages[i]
+        const div = document.createElement("li")
+        div.innerHTML = `<strong>${message.author || message.user}:</strong> ${message.text}`
+        chatBox.appendChild(div)
+    }   
+};
 
 const postMessage = async (message) => {
-    const response = await fetch('/api/messages', {
-        method: 'POST', 
-        body: JSON.stringify(message)
-    });
-    getMessages();
-}
+    await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(message),
+    })
+    getMessages()
+};
 
-getMessages();
+getMessages()
 
 setInterval(() => {
-    getMessages();
+    getMessages()
+}, 5000)
 
-}, 1000);
+const sendButton = document.getElementById("send-button")
+const userInput = document.getElementById("user-input")
 
-document.getElementById('send').addEventListener(() => {
-    const message = document.getElementById('message').value;
-    postMessage({
-        user: 'Juan',
-        text: message
-    }) 
+sendButton.addEventListener("click", () => {
+    const message = userInput.value
+    if (message.trim() !== "") {
+        postMessage({
+            user: "Jorge",
+            text: message
+        })
+        userInput.value = ""
+    }
 })
