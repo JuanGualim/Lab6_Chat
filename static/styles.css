@@ -97,3 +97,9 @@ h1 {
     margin-top: 5px;
     width: 100%;
 }
+
+.chat-image {
+    margin: 5px;
+    max-width: 200px;
+    border-radius: 8px;
+}

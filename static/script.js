@@ -12,6 +12,7 @@ const getMessages = async () => {
     }
 
     const chatBox = document.getElementById("chat-box");
+    const estaAbajo = chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - 5;
     chatBox.innerHTML = "";
 
     messages.forEach(message => {
@@ -19,9 +20,17 @@ const getMessages = async () => {
         if ((message.user || message.author) === "Juan Gualim") {
             li.classList.add("self");
         }
-        li.innerHTML = `<strong>${message.author || message.user}:</strong> ${message.text}`;
+        let content = message.text.trim();
+        if (content.match(/\.(jpg|jpeg|png|gif|webp)$/i)){
+            content += `<br><img src="${message.text}" class="chat-image">`;
+        }
+        li.innerHTML = `<strong>${message.author || message.user}:</strong> ${content}`;
         chatBox.appendChild(li);
     });
+
+    if (estaAbajo) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 };
 
 const postMessage = async (message) => {
